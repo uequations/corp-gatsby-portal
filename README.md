@@ -5,7 +5,7 @@
   </a>
 </p>
 <h1 align="center">
-  Password Generator
+  Employee Portal
 </h1>
 
 ## 🧐 What's inside?

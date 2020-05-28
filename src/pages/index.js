@@ -5,6 +5,7 @@ import SEO from "../components/seo"
 import Hero from "../components/Hero"
 import GoodPasswordInfo from "../components/GoodPasswordInfo"
 import Skeleton from "@material-ui/lab/Skeleton"
+import VerticalTabPanel from "../components/VerticalTabPanel"
 
 export default function IndexPage() {
 
@@ -16,8 +17,7 @@ export default function IndexPage() {
 
   return (isLoading ? (<Skeleton variant="rect"/>) : (
     <Layout>
-      <SEO title="Password Generator | Universal Equations"/>
-      <Hero/>
-      <GoodPasswordInfo/>
+      <SEO title="Employee Portal | Universal Equations"/>
+      <VerticalTabPanel/>
     </Layout>))
 }

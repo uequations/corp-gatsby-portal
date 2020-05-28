@@ -42,17 +42,6 @@ const Layout = ({ children }) => {
       <div className={classes.container}>
         <Navbar/>
         <main>{children}</main>
-
-        <section className="footer_banner" id="contact">
-          <h2 className="hidden">Footer Banner Section </h2>
-          <p className="hero_header">SUBSCRIBE TO OUR <em>#DigitalTransformation SPEAKS!</em> NEWSLETTER</p>
-          <Grid container spacing={2} justify={"center"}>
-            <Button className={classes.subscribeButton} color={"secondary"} variant="contained"
-                    href={"https://sales.uequations.com/newsletter-signup/"}>SUBSCRIBE
-            </Button>
-          </Grid>
-        </section>
-
         <div className="copyright">&copy;2020-<strong>ALL RIGHTS RESERVED</strong></div>
       </div>
     </ThemeProvider>

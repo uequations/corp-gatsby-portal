@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Password Generator | Universal Equations`,
-    description: `Create strong passwords with our password generator.`,
+    title: `Employee Portal | Universal Equations`,
+    description: `Employee portal.`,
     author: `@uequations`,
     url: "https://pwgen.uequations.com",
     image: `https://res.cloudinary.com/uequations/image/upload/v1590180350/password-gen-gatsby-site/keys.png`,
