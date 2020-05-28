@@ -5,22 +5,29 @@ import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
+import SocialPostForm from "./forms/SocialPostForm"
+import Paper from "@material-ui/core/Paper"
+import Container from "@material-ui/core/Container"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
 
   return (
-    <div
-      role={"tabpanel"}
-      hidden={value !== index}
-      id={"vertical-tabpanel-${index}"}
-      aria-labelledby={"vertical-tab-${index}"}
-      {...other}
+    <div style={{ width: "100%" }}
+         role={"tabpanel"}
+         hidden={value !== index}
+         id={`vertical-tabpanel-${index}`}
+         aria-labelledby={`vertical-tab-${index}`}
+         {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
+        <Container maxWidth={"md"}>
+          <Box
+            p={3}
+            m={3}>
+            {children}
+          </Box>
+        </Container>
       )}
     </div>
   )
@@ -34,8 +41,8 @@ TabPanel.propTypes = {
 
 function allyProps(index) {
   return {
-    id: "vertical-tab-${index}",
-    "aria-controls": "vertical-tabpanel-${index}"
+    id: `vertical-tab-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`
   }
 }
 
@@ -43,11 +50,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    display: "flex",
-    height: 224
+    display: "flex"
   },
   tabs: {
-    borderRight: "1px solid ${theme.palette.divider}"
+    borderRight: `1px solid ${theme.palette.divider}`
+  },
+  tabPanel: {
+    width: "100%"
   }
 }))
 
@@ -61,22 +70,24 @@ export default function VerticalTabs() {
 
   return (
     <div className={classes.root}>
-      <Tabs
-        orientation={"vertical"}
-        variant={"scrollable"}
-        value={"value"}
-        onChange={handleChange}
-        aria-label={"vertical tabs"}
-        className={classes.tabs}
-      >
-        <Tab label={"Social Post"} {...allyProps(0)}/>
-        <Tab label={"Item Two"} {...allyProps(1)}/>
-      </Tabs>
+      <Paper elevation={2}>
+        <Tabs
+          orientation={"vertical"}
+          variant={"scrollable"}
+          value={value}
+          onChange={handleChange}
+          aria-label={"vertical tabs"}
+          className={classes.tabs}
+        >
+          <Tab label={"Social Post"} {...allyProps(0)}/>
+          <Tab label={"Form Two"} {...allyProps(1)}/>
+        </Tabs>
+      </Paper>
       <TabPanel index={0} value={value}>
-        Social Post Form
+        <SocialPostForm/>
       </TabPanel>
       <TabPanel index={1} value={value}>
-        Item Two
+        <Typography>Form Two</Typography>
       </TabPanel>
     </div>
   )

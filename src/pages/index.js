@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import Hero from "../components/Hero"
-import GoodPasswordInfo from "../components/GoodPasswordInfo"
 import Skeleton from "@material-ui/lab/Skeleton"
 import VerticalTabPanel from "../components/VerticalTabPanel"
 

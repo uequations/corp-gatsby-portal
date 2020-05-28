@@ -9,10 +9,8 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import Navbar from "./Navbar"
-import "./layout.css"
+import "typeface-roboto"
 import makeStyles from "@material-ui/core/styles/makeStyles"
-import Button from "@material-ui/core/Button"
-import Grid from "@material-ui/core/Grid"
 import siteTheme from "../theme"
 import { ThemeProvider } from "@material-ui/core/styles"
 
@@ -28,8 +26,18 @@ const useStyles = makeStyles((theme) => ({
     subscribeButton: {
       alignItems: "center",
       marginTop: "40px"
+    },
+    copyright: {
+      textAlign: "center",
+      paddingTop: "20px",
+      paddingBottom: "20px",
+      backgroundColor: "#9EA4D3",
+      color: "#FFFFFF",
+      textTransform: "uppercase",
+      fontWeight: "lighter",
+      letterSpacing: "2px",
+      borderTopWidth: "2px"
     }
-
   }
 ))
 
@@ -42,14 +50,14 @@ const Layout = ({ children }) => {
       <div className={classes.container}>
         <Navbar/>
         <main>{children}</main>
-        <div className="copyright">&copy;2020-<strong>ALL RIGHTS RESERVED</strong></div>
+        <div className={classes.copyright}>&copy;2020-<strong>ALL RIGHTS RESERVED</strong></div>
       </div>
     </ThemeProvider>
   )
 }
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 }
 
 export default Layout
