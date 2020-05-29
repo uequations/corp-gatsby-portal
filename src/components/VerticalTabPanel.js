@@ -8,6 +8,7 @@ import Box from "@material-ui/core/Box"
 import SocialPostForm from "./forms/SocialPostForm"
 import Paper from "@material-ui/core/Paper"
 import Container from "@material-ui/core/Container"
+import Divider from "@material-ui/core/Divider"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -79,13 +80,16 @@ export default function VerticalTabs() {
           aria-label={"vertical tabs"}
           className={classes.tabs}
         >
+
           <Tab label={"Social Post"} {...allyProps(0)}/>
+
           <Tab label={"Form Two"} {...allyProps(1)}/>
         </Tabs>
       </Paper>
       <TabPanel index={0} value={value}>
         <SocialPostForm/>
       </TabPanel>
+
       <TabPanel index={1} value={value}>
         <Typography>Form Two</Typography>
       </TabPanel>
