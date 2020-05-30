@@ -1,21 +1,30 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
-import Skeleton from "@material-ui/lab/Skeleton"
-import VerticalTabPanel from "../components/VerticalTabPanel"
+import App from "../App"
+import { Auth0Provider } from "../auth/auth0-spa"
+import { authConfig } from "../auth/auth_config"
+import * as serviceWorker from "../serviceWorker"
+import history from "../auth/history"
 
 export default function IndexPage() {
 
-  const [isLoading, setIsLoading] = useState({ isLoading: true })
+  const onRedirectCallback = appState => {
+    history.push(
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : window.location.pathname
+    )
+  }
 
-  useEffect(() => {
-    setIsLoading(false)
-  }, [isLoading])
+  serviceWorker.unregister()
 
-  return (isLoading ? (<Skeleton variant="rect"/>) : (
-    <Layout>
-      <SEO title="Employee Portal | Universal Equations"/>
-      <VerticalTabPanel/>
-    </Layout>))
+  return (
+    <Auth0Provider
+      domain={authConfig.config.domain}
+      client_id={authConfig.config.clientId}
+      redirect_uri={window.location.origin}
+      onRedirectCallback={onRedirectCallback}
+    >
+      <App/>
+    </Auth0Provider>)
 }

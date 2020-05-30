@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
+  require("dotenv").config({ path: "./.env.development.development" })
+}
+
 module.exports = {
   siteMetadata: {
     title: `Employee Portal | Universal Equations`,

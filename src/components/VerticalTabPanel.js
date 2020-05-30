@@ -9,6 +9,8 @@ import SocialPostForm from "./forms/SocialPostForm"
 import Paper from "@material-ui/core/Paper"
 import Container from "@material-ui/core/Container"
 import Divider from "@material-ui/core/Divider"
+import Skeleton from "@material-ui/lab/Skeleton"
+import { useAuth0 } from "../auth/auth0-spa"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -67,6 +69,12 @@ export default function VerticalTabs() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
+  }
+
+  const { loading, user } = useAuth0()
+
+  if (loading || !user) {
+    return <Skeleton variant="rect" height={500}/>
   }
 
   return (
