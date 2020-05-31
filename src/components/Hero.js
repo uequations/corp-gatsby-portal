@@ -5,12 +5,12 @@ import Container from "@material-ui/core/Container"
 import Button from "@material-ui/core/Button"
 import withStyles from "@material-ui/core/styles/withStyles"
 import PropTypes from "prop-types"
-import { useAuth0 } from "../auth/auth0-spa"
-import { Link as RouterLink } from "react-router-dom"
+import { Link as RouterLink } from "gatsby"
 import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import CardActions from "@material-ui/core/CardActions"
 import Paper from "@material-ui/core/Paper"
+import { isAuthenticated } from "../auth"
 
 
 const backgroundImage = "https://res.cloudinary.com/uequations/image/upload/v1590883171/corp-gatsby-portal/nesa-by-makers-7d4LREDSPyQ-unsplash_1.jpg"
@@ -56,13 +56,6 @@ function Hero(props) {
 
   const { classes } = props
 
-  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
-
-  const logoutWithRedirect = () =>
-    logout({
-      returnTo: window.location.origin
-    })
-
   return (
     <Paper elevation={4} className={classes.background}>
       <Container className={classes.container}>
@@ -74,16 +67,6 @@ function Hero(props) {
               PORTAL</Typography>
           </CardContent>
           <CardActions>
-            {!isAuthenticated && (
-              <Button
-                color={"secondary"}
-                variant={"contained"}
-                size={"large"}
-                className={classes.button}
-                onClick={() => loginWithRedirect({})}>
-                LOGIN
-              </Button>)}
-            {isAuthenticated && (
               <Button
                 color={"secondary"}
                 variant={"contained"}
@@ -91,9 +74,8 @@ function Hero(props) {
                 className={classes.button}
                 component={RouterLink}
                 to={"/dashboard"}>
-                DASHBOARD
+                LOGIN
               </Button>
-            )}
           </CardActions>
         </Card>
       </Container>

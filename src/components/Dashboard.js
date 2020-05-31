@@ -8,8 +8,8 @@ import Box from "@material-ui/core/Box"
 import SocialPostForm from "./forms/SocialPostForm"
 import Paper from "@material-ui/core/Paper"
 import Container from "@material-ui/core/Container"
-import Skeleton from "@material-ui/lab/Skeleton"
-import { useAuth0 } from "../auth/auth0-spa"
+import { getProfile, isAuthenticated, login } from "../auth"
+import CallbackPage from "../pages/callback"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -62,24 +62,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function VerticalTabs() {
+export default function Dashboard() {
+
   const classes = useStyles()
-  const [value, setValue] = useState(0)
+  const [tabValue, setTabValue] = useState(0)
+
+  if (!isAuthenticated()) {
+    login()
+    return (<CallbackPage/>)
+  }
+  const user = getProfile()
 
   const handleChange = (event, newValue) => {
-    setValue(newValue)
-  }
-
-  const { loading, user } = useAuth0()
-
-  if (loading || !user) {
-    return (
-      <div>
-        <Skeleton variant={"text"}/>
-        <Skeleton variant="circle" width={175} height={175}/>
-        <Skeleton variant="rect" height={500}/>
-      </div>
-    )
+    setTabValue(newValue)
   }
 
   return (
@@ -88,7 +83,7 @@ export default function VerticalTabs() {
         <Tabs
           orientation={"vertical"}
           variant={"scrollable"}
-          value={value}
+          value={tabValue}
           onChange={handleChange}
           aria-label={"vertical tabs"}
           className={classes.tabs}
@@ -97,11 +92,11 @@ export default function VerticalTabs() {
           <Tab label={"Form Two"} {...allyProps(1)}/>
         </Tabs>
       </Paper>
-      <TabPanel index={0} value={value}>
+      <TabPanel index={0} value={tabValue}>
         <SocialPostForm/>
       </TabPanel>
 
-      <TabPanel index={1} value={value}>
+      <TabPanel index={1} value={tabValue}>
         <Typography>Form Two</Typography>
       </TabPanel>
     </div>

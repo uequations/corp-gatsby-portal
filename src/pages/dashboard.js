@@ -3,8 +3,9 @@ import React from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Container from "@material-ui/core/Container"
-import Home from "../components/Home"
+import Dashboard from "../components/Dashboard"
 import { makeStyles } from "@material-ui/core/styles"
+import { Router } from "@reach/router"
 
 const useStyles = makeStyles((theme) => ({
   rootContainer: {
@@ -12,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-export default function IndexPage() {
+export default function DashboardPage() {
 
   const classes = useStyles()
 
@@ -20,7 +21,9 @@ export default function IndexPage() {
     <Layout>
       <SEO title="Employee Portal | Universal Equations"/>
       <Container className={classes.rootContainer}>
-        <Home/>
+        <Router>
+          <Dashboard path={"/dashboard"}/>
+        </Router>
       </Container>
     </Layout>)
 }

@@ -1,13 +1,15 @@
 if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
-  require("dotenv").config({ path: "./.env.development.development" })
+  require("dotenv").config({ path: "./.env.development" })
+} else if (process.env.NODE_ENV === "production") {
+  require("dotenv").config({ path: "./.env.production" })
 }
 
 module.exports = {
   siteMetadata: {
-    title: `Employee Portal | Universal Equations`,
+    title: `UEQ Employee Portal | Universal Equations`,
     description: `Employee portal.`,
     author: `@uequations`,
-    url: "https://pwgen.uequations.com",
+    url: "https://corp.uequations.com",
     image: `https://res.cloudinary.com/uequations/image/upload/v1590180350/password-gen-gatsby-site/keys.png`,
     twitterUsername: `@uequations`,
     keywords: `passwords,Generator,options,security,character,create`
@@ -26,7 +28,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Password Generator Site | Universal Equations`,
+        name: `UEQ EMPLOYEE PORTAL | Universal Equations`,
         short_name: `Password Generator Site`,
         start_url: `/`,
         background_color: `#9EA4D3`,
