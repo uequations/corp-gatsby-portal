@@ -7,6 +7,10 @@ import withStyles from "@material-ui/core/styles/withStyles"
 import PropTypes from "prop-types"
 import { useAuth0 } from "../auth/auth0-spa"
 import { Link as RouterLink } from "react-router-dom"
+import Card from "@material-ui/core/Card"
+import CardContent from "@material-ui/core/CardContent"
+import CardActions from "@material-ui/core/CardActions"
+import Paper from "@material-ui/core/Paper"
 
 
 const backgroundImage = "https://res.cloudinary.com/uequations/image/upload/v1590883171/corp-gatsby-portal/nesa-by-makers-7d4LREDSPyQ-unsplash_1.jpg"
@@ -22,9 +26,9 @@ const styles = (theme) => ({
   },
   heroText: {
     marginBottom: theme.spacing(4),
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      marginTop: theme.spacing(10)
+      marginTop: theme.spacing(2)
     }
   },
   container: {
@@ -38,6 +42,13 @@ const styles = (theme) => ({
     },
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(14)
+  },
+  card: {
+    marginTop: theme.spacing(40),
+    minWidth: 275,
+    alignItems: "center",
+    display: "flex",
+    flexDirection: "column"
   }
 })
 
@@ -53,33 +64,40 @@ function Hero(props) {
     })
 
   return (
-    <section className={classes.background}>
+    <Paper elevation={4} className={classes.background}>
       <Container className={classes.container}>
-        <Typography className={classes.heroText} color={"primary"} align={"center"} variant={"h2"} marked={"center"}>UEQ
-          EMPLOYEE
-          PORTAL</Typography>
-        {!isAuthenticated && (
-          <Button
-            color={"secondary"}
-            variant={"contained"}
-            size={"large"}
-            className={classes.button}
-            onClick={() => loginWithRedirect({})}>
-            LOGIN
-          </Button>)}
-        {isAuthenticated && (
-          <Button
-            color={"secondary"}
-            variant={"contained"}
-            size={"large"}
-            className={classes.button}
-            component={RouterLink}
-            to={"/dashboard"}>
-            DASHBOARD
-          </Button>
-        )}
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.heroText} color={"primary"} align={"center"} variant={"h3"}
+                        marked={"center"}>UEQ
+              EMPLOYEE
+              PORTAL</Typography>
+          </CardContent>
+          <CardActions>
+            {!isAuthenticated && (
+              <Button
+                color={"secondary"}
+                variant={"contained"}
+                size={"large"}
+                className={classes.button}
+                onClick={() => loginWithRedirect({})}>
+                LOGIN
+              </Button>)}
+            {isAuthenticated && (
+              <Button
+                color={"secondary"}
+                variant={"contained"}
+                size={"large"}
+                className={classes.button}
+                component={RouterLink}
+                to={"/dashboard"}>
+                DASHBOARD
+              </Button>
+            )}
+          </CardActions>
+        </Card>
       </Container>
-    </section>
+    </Paper>
   )
 }
 
