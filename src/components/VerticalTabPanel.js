@@ -8,7 +8,6 @@ import Box from "@material-ui/core/Box"
 import SocialPostForm from "./forms/SocialPostForm"
 import Paper from "@material-ui/core/Paper"
 import Container from "@material-ui/core/Container"
-import Divider from "@material-ui/core/Divider"
 import Skeleton from "@material-ui/lab/Skeleton"
 import { useAuth0 } from "../auth/auth0-spa"
 
@@ -74,7 +73,13 @@ export default function VerticalTabs() {
   const { loading, user } = useAuth0()
 
   if (loading || !user) {
-    return <Skeleton variant="rect" height={500}/>
+    return (
+      <div>
+        <Skeleton variant={"text"}/>
+        <Skeleton variant="circle" width={175} height={175}/>
+        <Skeleton variant="rect" height={500}/>
+      </div>
+    )
   }
 
   return (
@@ -88,9 +93,7 @@ export default function VerticalTabs() {
           aria-label={"vertical tabs"}
           className={classes.tabs}
         >
-
           <Tab label={"Social Post"} {...allyProps(0)}/>
-
           <Tab label={"Form Two"} {...allyProps(1)}/>
         </Tabs>
       </Paper>

@@ -9,7 +9,7 @@ import { useAuth0 } from "../auth/auth0-spa"
 import { Link as RouterLink } from "react-router-dom"
 
 
-const backgroundImage = "https://unsplash.com/photos/7d4LREDSPyQ"
+const backgroundImage = "https://res.cloudinary.com/uequations/image/upload/v1590883171/corp-gatsby-portal/nesa-by-makers-7d4LREDSPyQ-unsplash_1.jpg"
 
 const styles = (theme) => ({
   background: {
@@ -20,15 +20,24 @@ const styles = (theme) => ({
   button: {
     minWidth: 200
   },
-  h5: {
+  heroText: {
     marginBottom: theme.spacing(4),
     marginTop: theme.spacing(4),
     [theme.breakpoints.up("sm")]: {
       marginTop: theme.spacing(10)
     }
   },
-  more: {
-    marginTop: theme.spacing(2)
+  container: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    [theme.breakpoints.up("sm")]: {
+      height: "80vh",
+      minHeight: 500,
+      maxHeight: 1300
+    },
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(14)
   }
 })
 
@@ -45,9 +54,9 @@ function Hero(props) {
 
   return (
     <section className={classes.background}>
-      <Container>
-        <img className="mb-3 app-logo" src={backgroundImage} alt="" width="120"/>
-        <Typography color={"inherit"} align={"center"} variant={"h2"} marked={"center"}>UEQUATIONS EMPLOYEE
+      <Container className={classes.container}>
+        <Typography className={classes.heroText} color={"primary"} align={"center"} variant={"h2"} marked={"center"}>UEQ
+          EMPLOYEE
           PORTAL</Typography>
         {!isAuthenticated && (
           <Button
@@ -67,16 +76,6 @@ function Hero(props) {
             component={RouterLink}
             to={"/dashboard"}>
             DASHBOARD
-          </Button>
-        )}
-        {isAuthenticated && (
-          <Button
-            color={"secondary"}
-            variant={"contained"}
-            size={"large"}
-            className={classes.button}
-            onClick={() => logoutWithRedirect()}>
-            LOGOUT
           </Button>
         )}
       </Container>

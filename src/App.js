@@ -24,7 +24,12 @@ export default function App() {
   const classes = useStyles()
 
   if (loading) {
-    return <Skeleton variant="rect" height={500}/>
+    return (
+      <div>
+        <Skeleton variant={"text"}/>
+        <Skeleton variant="circle" width={175} height={175}/>
+        <Skeleton variant="rect" height={500}/>
+      </div>)
   }
 
   return (

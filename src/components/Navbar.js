@@ -7,6 +7,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Button from "@material-ui/core/Button"
 import makeStyles from "@material-ui/core/styles/makeStyles"
 import IconButton from "@material-ui/core/IconButton"
+import { useAuth0 } from "../auth/auth0-spa"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles()
+
+  const { user, isAuthenticated, loginWithRedirect, logout } = useAuth0()
+
+  const logoutWithRedirect = () =>
+    logout({
+      returnTo: window.location.origin
+    })
 
   return (
     <ThemeProvider theme={siteTheme}>
@@ -33,6 +41,13 @@ const Navbar = () => {
             <Button color={"secondary"} href="https://www.uequations.com">HOME</Button>
             <Button color={"secondary"} href="https://www.uequations.com/about-us">ABOUT</Button>
             <Button color={"secondary"} href="https://sales.uequations.com/contact-us-general-inquiry/">CONTACT</Button>
+            {isAuthenticated && (
+              <Button
+                color={"secondary"}
+                onClick={() => logoutWithRedirect()}>
+                LOGOUT
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
       </div>
