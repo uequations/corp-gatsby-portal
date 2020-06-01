@@ -10,7 +10,6 @@ import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import CardActions from "@material-ui/core/CardActions"
 import Paper from "@material-ui/core/Paper"
-import { isAuthenticated } from "../auth"
 
 
 const backgroundImage = "https://res.cloudinary.com/uequations/image/upload/v1590883171/corp-gatsby-portal/nesa-by-makers-7d4LREDSPyQ-unsplash_1.jpg"

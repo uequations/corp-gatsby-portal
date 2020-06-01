@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper"
 import Container from "@material-ui/core/Container"
 import { getProfile, isAuthenticated, login } from "../auth"
 import CallbackPage from "../pages/callback"
+import { authConfig } from "../auth/auth_config"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -68,6 +69,7 @@ export default function Dashboard() {
   const [tabValue, setTabValue] = useState(0)
 
   if (!isAuthenticated()) {
+    console.log("logging in via domain: ", authConfig.config.domain)
     login()
     return (<CallbackPage/>)
   }
