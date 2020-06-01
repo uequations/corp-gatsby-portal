@@ -5,9 +5,6 @@ if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
   console.log("environment: ", process.env.NODE_ENV)
   require("dotenv").config({ path: "./.env.production" })
 } else {
-  console.log("environment: ", process.env.NODE_ENV)
-  console.log("netlify: ", process.env.NETLIFY)
-  console.log("auth0 domain: ", process.env.AUTH0_DOMAIN)
 }
 
 module.exports = {
