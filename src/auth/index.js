@@ -6,7 +6,7 @@ const isBrowser = typeof window !== "undefined"
 
 const index = isBrowser
   ? new auth0.WebAuth({
-    domain: process.env.AUTH0_DOMAIN,
+    domain: authConfig.config.domain,
     clientID: authConfig.config.clientId,
     redirectUri: authConfig.config.callback,
     responseType: "token id_token",
