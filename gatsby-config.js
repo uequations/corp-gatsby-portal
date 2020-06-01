@@ -7,6 +7,7 @@ if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
 } else {
   console.log("environment: ", process.env.NODE_ENV)
   console.log("netlify: ", process.env.NETLIFY)
+  console.log("auth0 domain: ", process.env.AUTH0_DOMAIN)
 }
 
 module.exports = {
