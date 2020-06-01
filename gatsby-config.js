@@ -1,7 +1,12 @@
 if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
+  console.log("environment: ", process.env.NODE_ENV)
   require("dotenv").config({ path: "./.env.development" })
-} else if (process.env.NODE_ENV === "production") {
+} else if (process.env.NODE_ENV === "production" && !process.env.NETLIFY) {
+  console.log("environment: ", process.env.NODE_ENV)
   require("dotenv").config({ path: "./.env.production" })
+} else {
+  console.log("environment: ", process.env.NODE_ENV)
+  console.log("netlify: ", process.env.NETLIFY)
 }
 
 module.exports = {
