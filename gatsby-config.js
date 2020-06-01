@@ -20,8 +20,12 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/images`,
-      },
+        path: `${__dirname}/src/images`
+      }
+    },
+    {
+      resolve: `gatsby-plugin-material-ui`,
+      options: {}
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
@@ -29,13 +33,13 @@ module.exports = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `UEQ EMPLOYEE PORTAL | Universal Equations`,
-        short_name: `Password Generator Site`,
+        short_name: `Employee Portal`,
         start_url: `/`,
         background_color: `#9EA4D3`,
         theme_color: `#380A13`,
         display: `minimal-ui`,
         icon: `src/images/icon.png` // This path is relative to the root of the site.
-      },
+      }
 
     },
     {
