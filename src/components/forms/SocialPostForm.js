@@ -41,6 +41,7 @@ export default function SocialPostForm() {
     xhr.open(form.method, process.env.SOCIAL_POST_ACTION_URL, true)
     xhr.setRequestHeader("Accept", "application/x-www-form-urlencoded")
     xhr.onreadystatechange = () => {
+      console.log("submitting form to: ", process.env.SOCIAL_POST_ACTION_URL)
       if (xhr.readyState !== XMLHttpRequest.DONE) return
       if (xhr.status === 200) {
         form.reset()
