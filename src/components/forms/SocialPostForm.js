@@ -38,10 +38,10 @@ export default function SocialPostForm() {
     const form = ev.target
     const data = new FormData(form)
     const xhr = new XMLHttpRequest()
-    xhr.open(form.method, process.env.SOCIAL_POST_ACTION_URL, true)
+    xhr.open(form.method, process.env.GATSBY_SOCIAL_POST_ACTION_URL, true)
     xhr.setRequestHeader("Accept", "application/x-www-form-urlencoded")
     xhr.onreadystatechange = () => {
-      console.log("submitting form to: ", process.env.SOCIAL_POST_ACTION_URL)
+      console.log("submitting form to: ", process.env.GATSBY_SOCIAL_POST_ACTION_URL)
       if (xhr.readyState !== XMLHttpRequest.DONE) return
       if (xhr.status === 200) {
         form.reset()
