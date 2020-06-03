@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
+import { useForm } from "react-hook-form"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     marginTop: theme.spacing(3),
     marginBottom: theme.spacing(2)
+  },
+  form: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   }
 }))
 
@@ -33,35 +38,54 @@ export default function SocialPostForm() {
 
   const [submissionStatus, setSubmissionStatus] = useState({ submissionStatus: "" })
 
-  function handleSubmit(ev) {
-    ev.preventDefault()
-    const form = ev.target
-    const data = new FormData(form)
-    const xhr = new XMLHttpRequest()
-    xhr.open(form.method, process.env.GATSBY_SOCIAL_POST_ACTION_URL, true)
-    xhr.setRequestHeader("Accept", "application/x-www-form-urlencoded")
-    xhr.onreadystatechange = () => {
-      console.log("submitting form to: ", process.env.GATSBY_SOCIAL_POST_ACTION_URL)
-      if (xhr.readyState !== XMLHttpRequest.DONE) return
-      if (xhr.status === 200) {
-        form.reset()
-        setSubmissionStatus({ submissionStatus: "SUCCESS" })
-      } else {
-        console.log("status: ", xhr.status)
+  const { register, handleSubmit, errors } = useForm()
+
+  const onSubmit = data => {
+    postFormData(data)
+      .then(data => {
+          console.log("API response: ", data)
+          setSubmissionStatus({ submissionStatus: "SUCCESS" })
+        }
+      )
+      .catch((error) => {
+        console.error("API error: ", error)
         setSubmissionStatus({ submissionStatus: "ERROR" })
-      }
+      })
+  }
+
+  async function postFormData(data) {
+
+    console.log("form data: ", data)
+
+    const url = "https://ueq-functions.netlify.app/.netlify/functions/social-post"
+    //  const url = 'https://enl0d93jfbth327.m.pipedream.net'
+
+    console.log("posting data: ", JSON.stringify(data))
+
+    const responseOptions = {
+      method: "POST",
+      mode: "no-cors",
+      //    cache: 'default',
+      ///   credentials: 'default',
+      //  headers: {
+      //     'Content-Type': 'application/json'
+      //    },
+      //    redirect: 'follow',
+      //     referrerPolicy: 'no-referrer-when-downgrade',
+      body: JSON.stringify(data)
     }
-    xhr.send(data)
+
+    return await fetch(url, responseOptions)
   }
 
   return (
     <ThemeProvider theme={siteTheme}>
       <Container className={classes.root} component={"section"}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className={classes.form}>
           <Grid item xs/>
           <Grid item xs={10} md={8}>
             <div>
-              <form encType={"application/x-www-form-urlencoded"} method={"POST"} onSubmit={handleSubmit}>
+              <form method={"POST"} onSubmit={handleSubmit(onSubmit)}>
                 <Typography align={"center"} variant={"h4"} gutterBottom={true}>SOCIAL POST</Typography>
                 <TextField fullWidth
                            size={"medium"}
@@ -69,6 +93,7 @@ export default function SocialPostForm() {
                            label={"Post Title"}
                            className={classes.textField}
                            name={"post_title"}
+                           inputRef={register}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -76,33 +101,44 @@ export default function SocialPostForm() {
                            label={"Primary Reference URL"}
                            type={"url"}
                            name={"primary_reference_url"}
-                           className={classes.textField}/>
+                           className={classes.textField}
+                           inputRef={register}
+                />
                 <TextField fullWidth
                            size={"medium"}
                            color={"secondary"}
                            label={"Hash Tags"}
                            name={"hash_tags"}
                            required={true}
-                           className={classes.textField}/>
+                           inputRef={register}
+                           className={classes.textField}
+                           inputRef={register}
+                />
                 <TextField fullWidth
                            size={"medium"}
                            color={"secondary"}
                            label={"Associated Twitter Influencer"}
                            name={"associated_twitter_influencer"}
-                           className={classes.textField}/>
+                           className={classes.textField}
+                           inputRef={register}
+                />
                 <TextField fullWidth
                            size={"medium"}
                            color={"secondary"}
                            label={"Social Post (Shortened)"}
                            name={"social_post_shortened"}
-                           className={classes.textField}/>
+                           className={classes.textField}
+                           inputRef={register}
+                />
                 <TextField fullWidth
                            size={"medium"}
                            color={"secondary"}
                            label={"Social Post"}
                            name={"social_post"}
                            multiline={true}
-                           className={classes.textField}/>
+                           className={classes.textField}
+                           inputRef={register}
+                />
                 <TextField fullWidth
                            size={"medium"}
                            color={"secondary"}
@@ -113,7 +149,10 @@ export default function SocialPostForm() {
                            className={classes.textField}
                            inputProps={{
                              "min": 0
-                           }}/>
+                           }}
+                           inputRef={register}
+                />
+                {errors.hash_tags && <span>This field is required</span>}
                 <br/>
                 <br/>
                 <Button type={"submit"} variant={"contained"} color={"secondary"} fullWidth={true}>SUBMIT</Button>
