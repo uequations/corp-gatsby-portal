@@ -66,7 +66,7 @@ export default function SocialPostForm() {
       body: JSON.stringify(data)
     }
 
-    return await fetch(url, responseOptions)
+    return fetch(url, responseOptions)
   }
 
   return (
@@ -85,6 +85,9 @@ export default function SocialPostForm() {
                            className={classes.textField}
                            name={"post_title"}
                            inputRef={register}
+                           inputProps={{
+                             "spellcheck": true
+                           }}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -120,6 +123,10 @@ export default function SocialPostForm() {
                            name={"social_post_shortened"}
                            className={classes.textField}
                            inputRef={register}
+                           inputProps={{
+                             "spellcheck": true,
+                             "maxlength": 100
+                           }}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -129,6 +136,9 @@ export default function SocialPostForm() {
                            multiline={true}
                            className={classes.textField}
                            inputRef={register}
+                           inputProps={{
+                             "spellcheck": true
+                           }}
                 />
                 <TextField fullWidth
                            size={"medium"}
