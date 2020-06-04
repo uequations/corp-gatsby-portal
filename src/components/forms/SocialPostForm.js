@@ -43,9 +43,9 @@ export default function SocialPostForm() {
   const onSubmit = data => {
     postFormData(data)
       .then(response => {
-          console.log("API response: ", response)
           console.log("response status: ", response.status)
           setSubmissionStatus({ submissionStatus: "SUCCESS" })
+          return response.json()
         }
       )
       .catch((error) => {
