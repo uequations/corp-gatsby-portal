@@ -42,8 +42,9 @@ export default function SocialPostForm() {
 
   const onSubmit = data => {
     postFormData(data)
-      .then(data => {
-          console.log("API response: ", data)
+      .then(response => {
+          console.log("API response: ", response)
+          console.log("response status: ", response.status)
           setSubmissionStatus({ submissionStatus: "SUCCESS" })
         }
       )
@@ -55,23 +56,13 @@ export default function SocialPostForm() {
 
   async function postFormData(data) {
 
-    console.log("form data: ", data)
-
     const url = "https://ueq-functions.netlify.app/.netlify/functions/social-post"
-    //  const url = 'https://enl0d93jfbth327.m.pipedream.net'
 
     console.log("posting data: ", JSON.stringify(data))
 
     const responseOptions = {
       method: "POST",
       mode: "no-cors",
-      //    cache: 'default',
-      ///   credentials: 'default',
-      //  headers: {
-      //     'Content-Type': 'application/json'
-      //    },
-      //    redirect: 'follow',
-      //     referrerPolicy: 'no-referrer-when-downgrade',
       body: JSON.stringify(data)
     }
 
