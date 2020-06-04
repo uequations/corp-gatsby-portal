@@ -45,7 +45,7 @@ export default function SocialPostForm() {
       .then(response => {
           console.log("response status: ", response.status)
           setSubmissionStatus({ submissionStatus: "SUCCESS" })
-          return response.json()
+          return response
         }
       )
       .catch((error) => {
