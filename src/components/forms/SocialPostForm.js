@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 import Container from "@material-ui/core/Container"
 import { useForm } from "react-hook-form"
+import Snackbar from "@material-ui/core/Snackbar"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,11 +41,21 @@ export default function SocialPostForm() {
 
   const { register, handleSubmit, errors } = useForm()
 
+  const [open, setOpen] = useState(false)
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return
+    }
+    setOpen(false)
+  }
+
   const onSubmit = data => {
     postFormData(data)
       .then(response => {
           console.log("response status: ", response.status)
           setSubmissionStatus({ submissionStatus: "SUCCESS" })
+          setOpen(true)
           return response
         }
       )
@@ -66,7 +77,7 @@ export default function SocialPostForm() {
       body: JSON.stringify(data)
     }
 
-    return fetch(url, responseOptions)
+    return await fetch(url, responseOptions)
   }
 
   return (
@@ -157,6 +168,16 @@ export default function SocialPostForm() {
                 <br/>
                 <br/>
                 <Button type={"submit"} variant={"contained"} color={"secondary"} fullWidth={true}>SUBMIT</Button>
+                <Snackbar
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "center"
+                  }}
+                  open={open}
+                  autoHideDuration={5500}
+                  onClose={handleClose}
+                  message={"SUBMITTED & SAVED"}
+                />
               </form>
             </div>
           </Grid>
