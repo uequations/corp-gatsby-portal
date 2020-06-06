@@ -39,7 +39,7 @@ export default function SocialPostForm() {
 
   const [submissionStatus, setSubmissionStatus] = useState({ submissionStatus: "" })
 
-  const { register, handleSubmit, errors } = useForm()
+  const { register, handleSubmit, errors, reset } = useForm()
 
   const [open, setOpen] = useState(false)
 
@@ -50,12 +50,13 @@ export default function SocialPostForm() {
     setOpen(false)
   }
 
-  const onSubmit = data => {
+  const onSubmit = (data, event) => {
     postFormData(data)
       .then(response => {
           console.log("response status: ", response.status)
           setSubmissionStatus({ submissionStatus: "SUCCESS" })
           setOpen(true)
+          event.target.reset()
           return response
         }
       )
@@ -69,7 +70,7 @@ export default function SocialPostForm() {
 
     const url = "https://ueq-functions.netlify.app/.netlify/functions/social-post"
 
-    console.log("posting data: ", JSON.stringify(data))
+    console.debug("posting data: ", JSON.stringify(data))
 
     const responseOptions = {
       method: "POST",
