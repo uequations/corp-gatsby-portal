@@ -56,7 +56,6 @@ export default function SocialPostForm() {
           console.log("response status: ", response.status)
           setSubmissionStatus({ submissionStatus: "SUCCESS" })
           setOpen(true)
-          event.target.reset()
           return response
         }
       )
@@ -168,7 +167,11 @@ export default function SocialPostForm() {
                 {errors.hash_tags && <span>This field is required</span>}
                 <br/>
                 <br/>
-                <Button type={"submit"} variant={"contained"} color={"secondary"} fullWidth={true}>SUBMIT</Button>
+                <ButtonGroup>
+                  <Button type={"submit"} variant={"contained"} color={"secondary"} fullWidth={true}>SUBMIT</Button>
+                  <Button type={"reset"} variant={"contained"} color={"secondary"} fullWidth={true}
+                          onClick={reset}>RESET</Button>
+                </ButtonGroup>
                 <Snackbar
                   anchorOrigin={{
                     vertical: "bottom",
