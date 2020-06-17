@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles"
 import siteTheme from "../../theme"
 import Grid from "@material-ui/core/Grid"
@@ -9,6 +9,7 @@ import Container from "@material-ui/core/Container"
 import { useForm } from "react-hook-form"
 import Snackbar from "@material-ui/core/Snackbar"
 import ButtonGroup from "@material-ui/core/ButtonGroup"
+import FormSubmissionDialog from "../FormSubmissionDialog"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,45 +33,98 @@ const useStyles = makeStyles((theme) => ({
   form: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2)
+  },
+  buttonGroup: {
+    display: "flex",
+    justifyContent: "center"
   }
 }))
 
 export default function SocialPostForm() {
   const classes = useStyles()
 
+  const timer = React.useRef()
   const [submissionStatus, setSubmissionStatus] = useState({ submissionStatus: "" })
-
   const { register, handleSubmit, errors, reset } = useForm()
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [submissionMessage, setSubmissionMessage] = useState("")
 
-  const [open, setOpen] = useState(false)
+  useEffect(() => {
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [])
 
-  const handleClose = (event, reason) => {
+  const handleSnackbarClose = (event, reason) => {
     if (reason === "clickaway") {
       return
     }
-    setOpen(false)
+    setSnackbarOpen(false)
   }
 
-  const onSubmit = (data, event) => {
-    postFormData(data)
-      .then(response => {
-          console.log("response status: ", response.status)
-          setSubmissionStatus({ submissionStatus: "SUCCESS" })
-          setOpen(true)
-          return response
-        }
-      )
+  const onSubmitForm = (data, event) => {
+
+    if (!loading) {
+      setSuccess(false)
+      setLoading(true)
+    }
+
+    openDialog(data)
+      .then((data) =>
+        postFormData(data))
+      .then((response) =>
+        handleResponse(response))
       .catch((error) => {
         console.error("API error: ", error)
         setSubmissionStatus({ submissionStatus: "ERROR" })
+        setSuccess(false)
+        setLoading(false)
       })
+  }
+
+  async function handleResponse(response) {
+    setLoading(false)
+
+    console.log("response status", response.status)
+    setSubmissionStatus({ submissionStatus: "SUCCESS" })
+    setSnackbarOpen(true)
+
+    setSuccess(true)
+
+    return Promise.resolve(response)
+  }
+
+  async function openDialog(data) {
+
+    const newLine = "\n"
+    const submissionMessage = "".concat(data.hash_tags)
+      .concat(newLine)
+      .concat(newLine)
+      .concat(data.social_post)
+      .concat(newLine)
+      .concat(newLine)
+      .concat(newLine)
+      .concat(data.post_title)
+      .concat(newLine)
+      .concat(newLine)
+      .concat(data.primary_reference_url)
+
+    setSubmissionMessage(submissionMessage)
+
+    setDialogOpen(true)
+    console.log(submissionMessage)
+
+    return Promise.resolve(data)
   }
 
   async function postFormData(data) {
 
     const url = "https://ueq-functions.netlify.app/.netlify/functions/social-post"
 
-    console.debug("posting data: ", JSON.stringify(data))
+    console.log("posting data: ", JSON.stringify(data))
 
     const responseOptions = {
       method: "POST",
@@ -81,6 +135,13 @@ export default function SocialPostForm() {
     return await fetch(url, responseOptions)
   }
 
+  const handleCloseDialog = () => {
+    console.log("closing dialog")
+    setDialogOpen(false)
+    reset()
+
+  }
+
   return (
     <ThemeProvider theme={siteTheme}>
       <Container className={classes.root} component={"section"}>
@@ -88,7 +149,7 @@ export default function SocialPostForm() {
           <Grid item xs/>
           <Grid item xs={10} md={8}>
             <div>
-              <form method={"POST"} onSubmit={handleSubmit(onSubmit)}>
+              <form method={"POST"} onSubmit={handleSubmit(onSubmitForm)}>
                 <Typography align={"center"} variant={"h4"} gutterBottom={true}>SOCIAL POST</Typography>
                 <TextField fullWidth
                            size={"medium"}
@@ -97,9 +158,7 @@ export default function SocialPostForm() {
                            className={classes.textField}
                            name={"post_title"}
                            inputRef={register}
-                           inputProps={{
-                             "spellcheck": true
-                           }}
+                           spellCheck={true}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -118,7 +177,6 @@ export default function SocialPostForm() {
                            required={true}
                            inputRef={register}
                            className={classes.textField}
-                           inputRef={register}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -135,10 +193,8 @@ export default function SocialPostForm() {
                            name={"social_post_shortened"}
                            className={classes.textField}
                            inputRef={register}
-                           inputProps={{
-                             "spellcheck": true,
-                             "maxlength": 100
-                           }}
+                           spellCheck={true}
+                           maxLength={95}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -148,9 +204,7 @@ export default function SocialPostForm() {
                            multiline={true}
                            className={classes.textField}
                            inputRef={register}
-                           inputProps={{
-                             "spellcheck": true
-                           }}
+                           spellCheck={true}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -168,8 +222,9 @@ export default function SocialPostForm() {
                 {errors.hash_tags && <span>This field is required</span>}
                 <br/>
                 <br/>
-                <ButtonGroup>
-                  <Button type={"submit"} variant={"contained"} color={"secondary"} fullWidth={true}>SUBMIT</Button>
+                <ButtonGroup className={classes.buttonGroup}>
+                  <Button disabled={loading} type={"submit"} variant={"contained"}
+                          color={"secondary"} fullWidth={true}>SUBMIT</Button>
                   <Button type={"reset"} variant={"contained"} color={"secondary"} fullWidth={true}
                           onClick={reset}>RESET</Button>
                 </ButtonGroup>
@@ -178,11 +233,13 @@ export default function SocialPostForm() {
                     vertical: "bottom",
                     horizontal: "center"
                   }}
-                  open={open}
+                  open={snackbarOpen}
                   autoHideDuration={5500}
-                  onClose={handleClose}
+                  onClose={handleSnackbarClose}
                   message={"SUBMITTED & SAVED"}
                 />
+                <FormSubmissionDialog handleCloseDialog={handleCloseDialog} dialogOpen={dialogOpen}
+                                      submissionMessage={submissionMessage}/>
               </form>
             </div>
           </Grid>
