@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container"
 import { getProfile, isAuthenticated, login } from "../auth"
 import CallbackPage from "../pages/callback"
 import { authConfig } from "../auth/auth_config"
+import KeywordForm from "./forms/KeywordForm"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -91,7 +92,7 @@ export default function Dashboard() {
           className={classes.tabs}
         >
           <Tab label={"Social Post"} {...allyProps(0)}/>
-          <Tab label={"Form Two"} {...allyProps(1)}/>
+          <Tab label={"Keyword"} {...allyProps(1)}/>
         </Tabs>
       </Paper>
       <TabPanel index={0} value={tabValue}>
@@ -99,7 +100,7 @@ export default function Dashboard() {
       </TabPanel>
 
       <TabPanel index={1} value={tabValue}>
-        <Typography>Form Two</Typography>
+        <KeywordForm/>
       </TabPanel>
     </div>
   )

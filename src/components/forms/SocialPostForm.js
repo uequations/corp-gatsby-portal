@@ -9,7 +9,7 @@ import Container from "@material-ui/core/Container"
 import { useForm } from "react-hook-form"
 import Snackbar from "@material-ui/core/Snackbar"
 import ButtonGroup from "@material-ui/core/ButtonGroup"
-import FormSubmissionDialog from "../FormSubmissionDialog"
+import FormSubmissionDialog from "./FormSubmissionDialog"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 export default function SocialPostForm() {
   const classes = useStyles()
 
+  console.log("classes", classes)
+
   const timer = React.useRef()
   const [submissionStatus, setSubmissionStatus] = useState({ submissionStatus: "" })
   const { register, handleSubmit, errors, reset } = useForm()
@@ -50,7 +52,15 @@ export default function SocialPostForm() {
   const [dialogOpen, setDialogOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [submissionMessage, setSubmissionMessage] = useState("")
+
+  const defaultSubmissionMessage = {
+    socialPost: "",
+    hashTags: "",
+    postTitle: "",
+    primaryReferenceUrl: ""
+  }
+
+  const [submissionMessage, setSubmissionMessage] = useState(defaultSubmissionMessage)
 
   useEffect(() => {
     return () => {
@@ -99,18 +109,12 @@ export default function SocialPostForm() {
 
   async function openDialog(data) {
 
-    const newLine = "\n"
-    const submissionMessage = "".concat(data.hash_tags)
-      .concat(newLine)
-      .concat(newLine)
-      .concat(data.social_post)
-      .concat(newLine)
-      .concat(newLine)
-      .concat(newLine)
-      .concat(data.post_title)
-      .concat(newLine)
-      .concat(newLine)
-      .concat(data.primary_reference_url)
+    const submissionMessage = {
+      hashTags: data.hash_tags,
+      socialPost: data.social_post,
+      postTitle: data.post_title,
+      primaryReferenceUrl: data.primary_reference_url
+    }
 
     setSubmissionMessage(submissionMessage)
 
@@ -158,7 +162,7 @@ export default function SocialPostForm() {
                            className={classes.textField}
                            name={"post_title"}
                            inputRef={register}
-                           spellCheck={true}
+                           inputProps={{ spellCheck: true }}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -172,7 +176,7 @@ export default function SocialPostForm() {
                 <TextField fullWidth
                            size={"medium"}
                            color={"secondary"}
-                           label={"Hash Tags"}
+                           label={"Keywords"}
                            name={"hash_tags"}
                            required={true}
                            inputRef={register}
@@ -192,9 +196,9 @@ export default function SocialPostForm() {
                            label={"Social Post (Shortened)"}
                            name={"social_post_shortened"}
                            className={classes.textField}
+                           inputProps={{ maxLength: 95, spellCheck: true }}
                            inputRef={register}
                            spellCheck={true}
-                           maxLength={95}
                 />
                 <TextField fullWidth
                            size={"medium"}
@@ -204,7 +208,7 @@ export default function SocialPostForm() {
                            multiline={true}
                            className={classes.textField}
                            inputRef={register}
-                           spellCheck={true}
+                           inputProps={{ spellCheck: true }}
                 />
                 <TextField fullWidth
                            size={"medium"}

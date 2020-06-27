@@ -50,7 +50,7 @@ const Layout = ({ children }) => {
       <div className={classes.container}>
         <Navbar/>
         <main>{children}</main>
-        <div className={classes.copyright}>&copy;2020-<strong>ALL RIGHTS RESERVED</strong></div>
+        <div className={classes.copyright}>&copy;2020 UNIVERSAL EQUATIONS-<strong>ALL RIGHTS RESERVED</strong></div>
       </div>
     </ThemeProvider>
   )

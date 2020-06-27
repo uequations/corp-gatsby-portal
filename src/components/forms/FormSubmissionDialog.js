@@ -22,7 +22,11 @@ export default function FormSubmissionDialog(props) {
         <DialogTitle id="alert-dialog-title">{"FORM SUBMITTED"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {props.submissionMessage}
+            <p>{props.submissionMessage.socialPost}</p>
+            <p>{props.submissionMessage.hashTags}</p>
+            <br/>
+            <p>{props.submissionMessage.postTitle}</p>
+            <p>{props.submissionMessage.primaryReferenceUrl}</p>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -37,6 +41,6 @@ export default function FormSubmissionDialog(props) {
 
 FormSubmissionDialog.propTypes = {
   dialogOpen: PropTypes.bool.isRequired,
-  submissionMessage: PropTypes.string,
+  submissionMessage: PropTypes.object,
   handleCloseDialog: PropTypes.func
 }
