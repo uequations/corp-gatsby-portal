@@ -17,20 +17,25 @@ import FormLabel from "@material-ui/core/FormLabel"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
+import { formConfig } from "../../config/form_config"
 
 export default function KeywordForm() {
 
   const formStyleClass = formStyles()
 
   const defaultSubmissionMessage = {
-    keywordType: "",
-    keywords: "",
-    popularityScore: "",
-    keywordCount: ""
+    line1: "", //keywords
+    line2: "community", // keyword_type
+    line3: "", //
+    line4: 2, // popularity_score
+    line5: 1 // keyword count
   }
 
   const defaultFormValues = {
-    keywordTypeValue: "community"
+    keyword_type: "community",
+    keywords: "",
+    popularity_score: 2,
+    keywordCount: 1
   }
 
   useEffect(() => {
@@ -43,20 +48,19 @@ export default function KeywordForm() {
 
   const handleRadioGroupChange = (event, value) => {
     console.log("handling radio group change", value)
-    setFormValues({ keywordTypeValue: value })
+    setFormValues({ keyword_type: value })
     setValue("keyword_type", value)
   }
 
   const timer = React.useRef()
-  const { register, handleSubmit, errors, reset, setValue, unregister } = useForm()
+  const { register, handleSubmit, errors, reset, setValue, unregister } = useForm({ defaultValues: defaultFormValues })
   const [submissionStatus, setSubmissionStatus] = useState({ submissionStatus: "" })
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [submissionMessage, setSubmissionMessage] = useState(defaultSubmissionMessage)
-  const actionURL = "https://ueq-functions.netlify.app/.netlify/functions/keyword"
-
+  const actionURL = formConfig.config.keywordFormActionURL
 
   useEffect(() => {
     return () => {
@@ -72,6 +76,8 @@ export default function KeywordForm() {
   }
 
   const onSubmitForm = (data, event) => {
+
+    event.preventDefault()
 
     if (!loading) {
       setSuccess(false)
@@ -94,7 +100,7 @@ export default function KeywordForm() {
   async function handleResponse(response) {
 
     setLoading(false)
-    console.log("response status", response.status)
+    console.log("response status", response)
     setSubmissionStatus({ submissionStatus: "SUCCESS" })
     setSnackbarOpen(true)
     setSuccess(true)
@@ -105,10 +111,10 @@ export default function KeywordForm() {
   async function openDialog(data) {
 
     const submissionMessage = {
-      hash_tags: data.hash_tags,
-      social_post: data.social_post,
-      post_title: data.post_title,
-      primary_reference_url: data.primary_reference_url
+      line1: "keywords: ".concat(data.keywords),
+      line2: "popularity score: ".concat(data.popularity_score),
+      line4: "keyword count: ".concat(data.keyword_count),
+      line5: "keyword type: ".concat(data.keyword_type)
     }
 
     setSubmissionMessage(submissionMessage)
@@ -132,7 +138,7 @@ export default function KeywordForm() {
           <Grid item xs/>
           <Grid item xs={10} md={8}>
             <div>
-              <form method={"POST"} onSubmit={handleSubmit(onSubmitForm)}>
+              <form onSubmit={handleSubmit(onSubmitForm)}>
                 <Typography align={"center"} variant={"h4"} gutterBottom={true}>KEYWORD</Typography>
                 <TextField fullWidth
                            size={"medium"}
@@ -148,7 +154,7 @@ export default function KeywordForm() {
                     aria-label={"Type"}
                     name={"keyword_type"}
                     className={formStyleClass.radioGroup}
-                    value={formValues.keywordTypeValue}
+                    value={formValues.keyword_type}
                     onChange={handleRadioGroupChange}
                   >
                     <FormControlLabel value={"community"} control={<Radio/>} label={"community"}/>
@@ -172,7 +178,7 @@ export default function KeywordForm() {
                            size={"medium"}
                            color={"secondary"}
                            label={"Keyword Count"}
-                           name={"hash_tags"}
+                           name={"keyword_count"}
                            inputRef={register}
                            className={formStyleClass.textField}
                            type="number"

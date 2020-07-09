@@ -43,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
 export default function SocialPostForm() {
   const classes = useStyles()
 
-  console.log("classes", classes)
-
   const timer = React.useRef()
   const [submissionStatus, setSubmissionStatus] = useState({ submissionStatus: "" })
   const { register, handleSubmit, errors, reset } = useForm()
@@ -54,10 +52,11 @@ export default function SocialPostForm() {
   const [success, setSuccess] = useState(false)
 
   const defaultSubmissionMessage = {
-    socialPost: "",
-    hashTags: "",
-    postTitle: "",
-    primaryReferenceUrl: ""
+    line1: "", //social post
+    line2: "", // keywords
+    line3: "-",
+    line4: "", // post title
+    line5: "" // primary reference url
   }
 
   const [submissionMessage, setSubmissionMessage] = useState(defaultSubmissionMessage)
@@ -110,10 +109,11 @@ export default function SocialPostForm() {
   async function openDialog(data) {
 
     const submissionMessage = {
-      hashTags: data.hash_tags,
-      socialPost: data.social_post,
-      postTitle: data.post_title,
-      primaryReferenceUrl: data.primary_reference_url
+      line1: data.hash_tags,
+      line2: data.social_post,
+      line3: "-",
+      line4: data.post_title,
+      line5: data.primary_reference_url
     }
 
     setSubmissionMessage(submissionMessage)

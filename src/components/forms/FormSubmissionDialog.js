@@ -22,11 +22,11 @@ export default function FormSubmissionDialog(props) {
         <DialogTitle id="alert-dialog-title">{"FORM SUBMITTED"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <p>{props.submissionMessage.socialPost}</p>
-            <p>{props.submissionMessage.hashTags}</p>
-            <br/>
-            <p>{props.submissionMessage.postTitle}</p>
-            <p>{props.submissionMessage.primaryReferenceUrl}</p>
+            <span>{props.submissionMessage["line1"]}</span><br/>
+            <span>{props.submissionMessage["line2"]}</span><br/>
+            <span>{props.submissionMessage["line3"]}</span><br/>
+            <span>{props.submissionMessage["line4"]}</span><br/>
+            <span>{props.submissionMessage["line5"]}</span>
           </DialogContentText>
         </DialogContent>
         <DialogActions>

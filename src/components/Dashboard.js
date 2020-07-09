@@ -10,7 +10,7 @@ import Paper from "@material-ui/core/Paper"
 import Container from "@material-ui/core/Container"
 import { getProfile, isAuthenticated, login } from "../auth"
 import CallbackPage from "../pages/callback"
-import { authConfig } from "../auth/auth_config"
+import { authConfig } from "../config/auth_config"
 import KeywordForm from "./forms/KeywordForm"
 
 function TabPanel(props) {

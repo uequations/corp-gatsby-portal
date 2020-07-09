@@ -1,6 +1,6 @@
 import auth0 from "auth0-js"
 import { navigate } from "gatsby"
-import { authConfig } from "../auth/auth_config"
+import { authConfig } from "../config/auth_config"
 
 const isBrowser = typeof window !== "undefined"
 
