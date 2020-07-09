@@ -109,8 +109,8 @@ export default function SocialPostForm() {
   async function openDialog(data) {
 
     const submissionMessage = {
-      line1: data.hash_tags,
-      line2: data.social_post,
+      line2: data.hash_tags,
+      line1: data.social_post,
       line3: "-",
       line4: data.post_title,
       line5: data.primary_reference_url
